@@ -49,10 +49,10 @@ def request_to_tiktok_oauth():
 def get_access_key():
     # callbackURLのパラメータからアクセスキーを取得
     code = request.args.get('code')
-    url_for('get_access_token', code=code)
+    return redirect(url_for('get_access_token', code=code))
 
 
-@app.route('/get-access')
+@app.route('/get-access/<code>')
 def get_access_token(code):
     # アクセストークンを取得するためにpostする
     # resから取得したアクセストークンを保存する
@@ -73,6 +73,7 @@ def get_access_token(code):
     print(access_token)
     print(open_id)
     print(refresh_token)
+    return "get access token successfully!"
 
 
 if __name__ == '__main__':
