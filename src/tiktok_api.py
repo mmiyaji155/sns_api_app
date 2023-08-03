@@ -2,15 +2,43 @@ import requests
 import json
 import os
 import gspread
+from google.oauth2.service_account import Credentials
+
+# スプレッドシートの連携処理を別で書いておく。
+secret_credentials_json_oath = './client_secret_534494746627-5ufnbaj92irssf58t39emk47pgo24aee.apps.googleusercontent.com.json'
+scopes = [
+    'https://www.googleapis.com/auth/spreadsheets',
+    'https://www.googleapis.com/auth/drive'
+]
+
+credentials = Credentials.from_service_account_file(
+    secret_credentials_json_oath,
+    scopes=scopes
+)
+
+gc = gspread.authorize(credentials)
+wb = gc.open_by_key('1iBCRimWCHJ_HtA8z9gD03mP1CccbTTLZDLfEvysV06g')
+sh = wb.get_worksheet(0)
 
 
 def main():
-    post_data = get_post_data()
-    handle_spread_sheet(post_data)
+    access_tokens = get_access_token()
+    print(access_tokens)
+    for access_token in access_tokens:
+        post_data = get_post_data(access_token)
+        handle_spread_sheet(post_data)
+        print('next account')
     print('更新完了しました！')
 
 
-def get_post_data():
+# spread sheet からアクセストークンをリストで取得する処理
+def get_access_token():
+    access_tokens = sh.col_values(2)
+    del access_tokens[0]
+    return access_tokens
+
+
+def get_post_data(access_token):
     base_url = 'https://open.tiktokapis.com/v2/video/list/'
 
     headers = {
@@ -52,14 +80,13 @@ def get_post_data():
     return post_data
 
 
-# spreadsheetへのデータ貼り付け
+# spreadsheetへのデータ追加
 def handle_spread_sheet(post_data):
-    wb = gspread.service_account(filename='Google_cloud key_my-project-58552-python-40b21b969066.json')
-    ws = wb.open_by_url('***spread sheet url***') #urlを入力
-    old_data = ws.get_all_values()
-    new_data = old_data.extend(post_data)
-    ws.update_cells(new_data)
+    sheet_name = 'data-base'
+    wb.values_append(sheet_name, {'valueInputOption': 'USER_ENTERED'}, {'values': post_data})
+    print('データ追加完了！')
 
-# 現在のデータを取得する
-# 新しいデータを追加する（using extend method）
-# 追加後のすべてのデータを貼り付ける
+
+if __name__ == '__main__':
+    print('start apps')
+    main()
