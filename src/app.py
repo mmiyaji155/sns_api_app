@@ -5,6 +5,25 @@
 from flask import Flask, render_template, url_for, request, redirect
 import random
 import requests
+import gspread
+from google.oauth2.service_account import Credentials
+
+
+# スプレッドシートの連携処理を別で書いておく。
+secret_credentials_json_oath = './client_secret_534494746627-5ufnbaj92irssf58t39emk47pgo24aee.apps.googleusercontent.com.json'
+scopes = [
+    'https://www.googleapis.com/auth/spreadsheets',
+    'https://www.googleapis.com/auth/drive'
+]
+
+credentials = Credentials.from_service_account_file(
+    secret_credentials_json_oath,
+    scopes=scopes
+)
+
+gc = gspread.authorize(credentials)
+wb = gc.open_by_key('1iBCRimWCHJ_HtA8z9gD03mP1CccbTTLZDLfEvysV06g')
+sh = wb.get_worksheet(0)
 
 
 # まずは、login-kit実装用のルートを構築する
@@ -66,6 +85,7 @@ def get_access_token(code):
         'code': code,
         'redirect_uri': redirect_url,
     }
+    tokens = []
     res = requests.post(base_url, headers=header, params=params)
     access_token = res['access_token']
     open_id = res['open_id']
@@ -73,6 +93,8 @@ def get_access_token(code):
     print(access_token)
     print(open_id)
     print(refresh_token)
+    tokens.append([access_token, refresh_token, open_id])
+    wb.values_append('access-token', {'valueInputOption': 'USER_ENTERED'}, {'values': tokens})
     return "get access token successfully!"
 
 
