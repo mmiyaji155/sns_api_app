@@ -31,3 +31,4 @@ tzdata==2023.3
 urllib3
 Werkzeug
 zipp
+gunicorn==19.9.0
