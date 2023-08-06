@@ -5,7 +5,7 @@ import gspread
 from google.oauth2.service_account import Credentials
 
 # スプレッドシートの連携処理を別で書いておく。
-secret_credentials_json_oath = './my-project-42400-tiktok-api-b96b06c2fc39.json'
+secret_credentials_json_oath = './src/my-project-42400-tiktok-api-b96b06c2fc39.json'
 scopes = [
     'https://www.googleapis.com/auth/spreadsheets',
     'https://www.googleapis.com/auth/drive'
