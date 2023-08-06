@@ -42,7 +42,7 @@ client_secret = "YOUR_CLIENT_SECRET"
 refresh_token = "USER_REFRESH_TOKEN"
 
 # スプレッドシートの連携処理を別で書いておく。
-secret_credentials_json_oath = '../client_secret_534494746627-5ufnbaj92irssf58t39emk47pgo24aee.apps.googleusercontent.com.json'
+secret_credentials_json_oath = 'my-project-42400-tiktok-api-b96b06c2fc39.json'
 scopes = [
     'https://www.googleapis.com/auth/spreadsheets',
     'https://www.googleapis.com/auth/drive'

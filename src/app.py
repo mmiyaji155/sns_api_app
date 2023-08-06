@@ -10,7 +10,7 @@ from google.oauth2.service_account import Credentials
 
 
 # スプレッドシートの連携処理を別で書いておく。
-secret_credentials_json_oath = '../client_secret_534494746627-5ufnbaj92irssf58t39emk47pgo24aee.apps.googleusercontent.com.json'
+secret_credentials_json_oath = 'my-project-42400-tiktok-api-b96b06c2fc39.json'
 scopes = [
     'https://www.googleapis.com/auth/spreadsheets',
     'https://www.googleapis.com/auth/drive'
@@ -77,7 +77,6 @@ def get_access_token(code):
     # resから取得したアクセストークンを保存する
     base_url = 'https://www.tiktok.com/v2/auth/authorize/'
     redirect_url = url_for('get_access_key', _external=True)  # Use _external=True to get the absolute URL
-    header = {}
     params = {
         'client_key': client_key,
         'scope': 'user.info.basic',
@@ -86,7 +85,7 @@ def get_access_token(code):
         'redirect_uri': redirect_url,
     }
     tokens = []
-    res = requests.post(base_url, headers=header, params=params)
+    res = requests.post(base_url, params=params)
     access_token = res['access_token']
     open_id = res['open_id']
     refresh_token = res['refresh_token']
