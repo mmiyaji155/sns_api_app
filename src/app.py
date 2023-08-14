@@ -67,8 +67,11 @@ def request_to_tiktok_oauth():
 @app.route('/callback')
 def get_access_key():
     # callbackURLのパラメータからアクセスキーを取得
-    code = request.args.get('code')
-    return redirect(url_for('get_access_token', code=code))
+    try:
+        code = request.args.get('code')
+        return redirect(url_for('get_access_token', code=code))
+    except:
+        return 'code is not found...'
 
 
 @app.route('/get-access/<code>')
