@@ -6,10 +6,26 @@
         <style>
             body {
                 font-family: 'Helvetica Neue', Arial, sans-serif;
-                background-color: #f8f9fa;
-                margin: 20px;
+                background-color: #000;
+                margin: 0;
                 text-align: center;
-                color: #333;
+                color: #fff;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                padding-top: 50px; /* Adjust the top padding based on the header height */
+            }
+
+            header {
+                width: 100%;
+                padding: 18px;
+                background-color: #edf2f7;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 1000;
             }
 
             h1 {
@@ -18,7 +34,27 @@
 
             p {
                 font-size: 1.2em;
-                color: #555;
+                color: #ccc;
+            }
+
+            /* Style for the button */
+            button {
+                display: inline-block;
+                padding: 10px 20px;
+                font-size: 1em;
+                font-weight: bold;
+                text-align: center;
+                text-decoration: none;
+                background: linear-gradient(to right, #29a1f2, #4b61a1); /* TikTok's gradient colors */
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background 0.3s ease;
+            }
+
+            button:hover {
+                background: linear-gradient(to right, #1a8cd2, #365899);
             }
 
             a {
@@ -35,29 +71,42 @@
                 color: #6c757d;
             }
 
+            .header {
+                text-align: left;
+                color: #007bff;
+            }
+
             .container {
                 max-width: 600px;
                 margin: 0 auto;
             }
 
             .footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
                 margin-top: 20px;
                 font-size: 0.9em;
                 color: #6c757d;
+                background-color: #000;
+                padding: 10px 20px;
             }
         </style>
     </head>
     <body>
+        <header>
+            <div class="header">Postalysis017</div>
+        </header>
         <div class="container">
             <h1>Postalysis017</h1>
             <p>これはSNSのデータ取得アプリです</p>
-            <p>以下のリンクからアカウントの認証を行ってください</p>
-            <a href='{{SERVER_ENDPOINT_OAUTH}}'>Continue with TikTok</a>
-            <br>
-            <a href="https://mmiyaji000.wixsite.com/sns-analysis-app/%E5%88%A9%E7%94%A8%E8%A6%8F%E7%B4%84">利用規約</a>
-            <a href="https://mmiyaji000.wixsite.com/sns-analysis-app/%E3%83%97%E3%83%A9%E3%82%A4%E3%83%90%E3%82%B7%E3%83%BC%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC">プライバシーポリシー</a>
+            <p>以下のボタンからアカウントの認証を行ってください</p>
+            <button onclick="window.location.href='{{SERVER_ENDPOINT_OAUTH}}'">Continue with TikTok</button>
         </div>
         <div class="footer">
+            <a href="https://mmiyaji000.wixsite.com/sns-analysis-app/%E5%88%A9%E7%94%A8%E8%A6%8F%E7%B4%84">利用規約</a>
+            <a href="https://mmiyaji000.wixsite.com/sns-analysis-app/%E3%83%97%E3%83%A9%E3%82%A4%E3%83%90%E3%82%B7%E3%83%BC%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC">プライバシーポリシー</a>
             <p>© 2024 My Flask App. All rights reserved.</p>
         </div>
     </body>
