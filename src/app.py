@@ -47,8 +47,8 @@ def request_to_tiktok_oauth():
     redirect_url = url_for('get_access_key', _external=True)  # Use _external=True to get the absolute URL
     params = {
         'client_key': client_key,
-        'scope': 'user.info.basic',
         'response_type': 'code',
+        'scope': 'user.info.basic',
         'redirect_uri': redirect_url,
         'state': csrfState
     }
