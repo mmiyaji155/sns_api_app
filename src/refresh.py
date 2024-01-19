@@ -36,10 +36,12 @@ def refresh_access_token(client_key, client_secret, refresh_token):
         print("アクセストークンのリフレッシュエラー:", e)
         return None
 
+
 # 使用例
 client_key = "YOUR_CLIENT_KEY"
 client_secret = "YOUR_CLIENT_SECRET"
 refresh_token = "USER_REFRESH_TOKEN"
+
 
 # スプレッドシートの連携処理を別で書いておく。
 secret_credentials_json_oath = './src/my-project-42400-tiktok-api-b96b06c2fc39.json'
@@ -59,10 +61,14 @@ sh = wb.get_worksheet(0)
 
 
 def main():
-    refresh_tokens = sh.col_values(3)
+    refresh_tokens = sh.col_values(2)
     print(refresh_tokens)
     cell_values = []
     for refresh_token in refresh_tokens:
+        if refresh_token == 'refresh token':
+            print('skip because this is column name')
+            continue
+
         result = refresh_access_token(client_key, client_secret, refresh_token)
         cell_value = []
         if result:
@@ -80,5 +86,5 @@ def main():
             continue
     #   spread sheet を更新する
     row_count = len(cell_values)
-    sh.update(f'B2:C{row_count}', cell_values)  # シートの access_token & refresh_token を更新する
+    sh.update(f'B2:C{row_count+1}', cell_values)  # シートの access_token & refresh_token を更新する
     print('更新完了！')

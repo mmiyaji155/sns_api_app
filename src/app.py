@@ -97,6 +97,7 @@ def get_access_token(code):
     print(refresh_token)
     tokens.append([access_token, refresh_token, open_id])
     wb.values_append('access-token', {'valueInputOption': 'USER_ENTERED'}, {'values': tokens})
+    print("get access token successfully!")
     return "get access token successfully!"
 
 
