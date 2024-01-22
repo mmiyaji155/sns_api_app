@@ -84,6 +84,10 @@ def get_access_token(code):
     print('start get_access_token')
     base_url = 'https://www.tiktok.com/v2/oauth/token/'
     redirect_url = url_for('get_access_key', _external=True)  # Use _external=True to get the absolute URL
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Cache-Control': 'no-cache'
+    }
     params = {
         "client_key": client_key,
         "client_secret": client_secret,
@@ -92,8 +96,10 @@ def get_access_token(code):
         "redirect_uri": redirect_url
     }
     tokens = []
-    res = requests.post(base_url, params=params)
-    res = res.json()
+    response = requests.post(base_url, headers=headers, params=params)
+    print('===response===')
+    print(response)
+    res = response.json()
     print('===res===')
     print(res)
     access_token = res['access_token']
