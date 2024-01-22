@@ -77,7 +77,7 @@ def get_access_key():
         return 'code is not found...'
 
 
-@app.route('/get-access/<code>', methods=['POST'])
+@app.route('/get-access/<code>', methods=['GET', 'POST'])
 def get_access_token(code):
     # アクセストークンを取得するためにpostする
     # resから取得したアクセストークンを保存する
