@@ -100,23 +100,33 @@ def get_access_token(code):
     }
     print(params)
     tokens = []
-    response = requests.post(base_url, headers=headers, params=params)
-    print('===response===')
-    print(response)
-    res = response.json()
-    print('===res===')
-    print(res)
-    access_token = res['access_token']
-    open_id = res['open_id']
-    refresh_token = res['refresh_token']
-    print(access_token)
-    print(open_id)
-    print(refresh_token)
-    tokens.append([access_token, refresh_token, open_id])
-    wb.values_append('access-token', {'valueInputOption': 'USER_ENTERED'}, {'values': tokens})
-    print("get access token successfully!")
-    return "get access token successfully!"
+    try:
+        response = requests.post(base_url, headers=headers, params=params)
+        print('===response===')
+        print(response)
+        res = response.json()
+        print('===res===')
+        print(res)
+    except Exception as e:
+        # 通信エラーなどの例外が発生した場合
+        print(f"An error occurred: {str(e)}")
+        return f"An error occurred: {str(e)}"
 
+    if 'access_token' in res:
+        access_token = res['access_token']
+        open_id = res['open_id']
+        refresh_token = res['refresh_token']
+        print(access_token)
+        print(open_id)
+        print(refresh_token)
+        tokens.append([access_token, refresh_token, open_id])
+        wb.values_append('access-token', {'valueInputOption': 'USER_ENTERED'}, {'values': tokens})
+        print("get access token successfully!")
+        return "get access token successfully!"
+    else:
+        # エラーが発生した場合
+        print(f"Error: {res.get('error_description', 'Unknown error')}")
+        return f"Error: {res.get('error_description', 'Unknown error')}"
 
 if __name__ == '__main__':
     print('start apps')
