@@ -82,6 +82,8 @@ def get_access_token(code):
     # アクセストークンを取得するためにpostする
     # resから取得したアクセストークンを保存する
     print('start get_access_token')
+    print('===code===')
+    print(code)
     base_url = 'https://www.tiktok.com/v2/oauth/token/'
     redirect_url = url_for('get_access_key', _external=True)  # Use _external=True to get the absolute URL
     headers = {
@@ -95,6 +97,7 @@ def get_access_token(code):
         "grant_type": "authorization_code",
         "redirect_uri": redirect_url
     }
+    print(params)
     tokens = []
     response = requests.post(base_url, headers=headers, params=params)
     print('===response===')
