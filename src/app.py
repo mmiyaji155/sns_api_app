@@ -27,9 +27,9 @@ sh = wb.get_worksheet(0)
 
 
 # まずは、login-kit実装用のルートを構築する
-app_id = '7263966704714696709'
-client_key = 'awe3jub5pxkrgw42'
-client_secret = '68b7811c85635b26da2648cdc2c6e060'
+app_id = '7321858940730443782'
+client_key = 'awp9eb2ocfla7v3y'
+client_secret = 'MPAbLk31CMW5xWSaVGqashblc0lo5NOg'
 
 app = Flask(__name__)
 

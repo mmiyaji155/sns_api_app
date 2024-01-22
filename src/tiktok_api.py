@@ -6,7 +6,7 @@ from google.oauth2.service_account import Credentials
 import datetime
 
 # スプレッドシートの連携処理を別で書いておく。
-secret_credentials_json_oath = './src/my-project-42400-tiktok-api-b96b06c2fc39.json'
+secret_credentials_json_oath = './my-project-42400-tiktok-api-b96b06c2fc39.json'
 scopes = [
     'https://www.googleapis.com/auth/spreadsheets',
     'https://www.googleapis.com/auth/drive'
@@ -18,7 +18,7 @@ credentials = Credentials.from_service_account_file(
 )
 
 gc = gspread.authorize(credentials)
-wb = gc.open_by_key('1iBCRimWCHJ_HtA8z9gD03mP1CccbTTLZDLfEvysV06g')
+wb = gc.open_by_key('1iBCRimWCHJ_HtA8z9gD03mP1CccbTTLZDLfEvysV06g') # access_token sheet id
 sh = wb.get_worksheet(0)
 
 
@@ -77,7 +77,8 @@ def get_post_data(access_token):
                 comment_count = video['comment_count']
                 share_count = video['share_count']
                 view_count = video['view_count']
-                data = [video_id, title, share_url, created_time, like_count, comment_count, share_count, view_count]
+                cover_image_url = video['cover_image_url']
+                data = [video_id, title, share_url, created_time, like_count, comment_count, share_count, view_count, cover_image_url]
                 post_data.append(data)
 
     else:
