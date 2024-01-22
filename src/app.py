@@ -67,8 +67,10 @@ def request_to_tiktok_oauth():
 @app.route('/callback')
 def get_access_key():
     # callbackURLのパラメータからアクセスキーを取得
+    print('start get_access_kye')
     try:
         code = request.args.get('code')
+        print('success!!')
         return redirect(url_for('get_access_token', code=code))
     except:
         print('code is not found...')
@@ -79,6 +81,7 @@ def get_access_key():
 def get_access_token(code):
     # アクセストークンを取得するためにpostする
     # resから取得したアクセストークンを保存する
+    print('start get_access_token')
     base_url = 'https://www.tiktok.com/v2/oauth/token/'
     redirect_url = url_for('get_access_key', _external=True)  # Use _external=True to get the absolute URL
     params = {
@@ -90,6 +93,8 @@ def get_access_token(code):
     }
     tokens = []
     res = requests.post(base_url, params=params)
+    print('===res===')
+    print(res)
     access_token = res['access_token']
     open_id = res['open_id']
     refresh_token = res['refresh_token']
