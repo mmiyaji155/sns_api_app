@@ -77,7 +77,7 @@ def get_access_key():
         return 'code is not found...'
 
 
-@app.route('/get-access/<code>')
+@app.route('/get-access/<code>', methods=['POST'])
 def get_access_token(code):
     # アクセストークンを取得するためにpostする
     # resから取得したアクセストークンを保存する
@@ -93,6 +93,7 @@ def get_access_token(code):
     }
     tokens = []
     res = requests.post(base_url, params=params)
+    res = res.json()
     print('===res===')
     print(res)
     access_token = res['access_token']
