@@ -71,6 +71,7 @@ def get_access_key():
     try:
         code = request.args.get('code')
         print('success!!')
+        print(code)
         return redirect(url_for('get_access_token', code=code))
     except:
         print('code is not found...')
