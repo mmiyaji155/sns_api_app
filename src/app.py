@@ -48,7 +48,7 @@ def request_to_tiktok_oauth():
     params = {
         'client_key': client_key,
         'response_type': 'code',
-        'scope': 'user.info.basic',
+        'scope': 'user.info.basic,video.list',
         'redirect_uri': redirect_url,
         'state': csrfState
     }
@@ -71,6 +71,7 @@ def get_access_key():
         code = request.args.get('code')
         return redirect(url_for('get_access_token', code=code))
     except:
+        print('code is not found...')
         return 'code is not found...'
 
 
@@ -78,14 +79,14 @@ def get_access_key():
 def get_access_token(code):
     # アクセストークンを取得するためにpostする
     # resから取得したアクセストークンを保存する
-    base_url = 'https://www.tiktok.com/v2/auth/authorize/'
+    base_url = 'https://www.tiktok.com/v2/oauth/token/'
     redirect_url = url_for('get_access_key', _external=True)  # Use _external=True to get the absolute URL
     params = {
-        'client_key': client_key,
-        'scope': 'user.info.basic',
-        'response_type': 'code',
-        'code': code,
-        'redirect_uri': redirect_url,
+        "client_key": client_key,
+        "client_secret": client_secret,
+        "code": code,
+        "grant_type": "authorization_code",
+        "redirect_uri": redirect_url
     }
     tokens = []
     res = requests.post(base_url, params=params)

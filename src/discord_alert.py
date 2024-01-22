@@ -61,13 +61,14 @@ def handle_bot(bot, view_count):
     # print(df_log)
     open_id = bot['open_id']
     url = df['webhook_url'].loc[df['open_id'] == open_id]
+    url = url.item()
     df_log['view_count'] = df_log['view_count'].astype(np.int64)
     df_log = df_log.sort_values('view_count', ascending=False)
-    print(type(df_log))
-    print(df_log)
+    # print(type(df_log))
+    # print(df_log)
 
     df_log_uni = df_log.drop_duplicates(subset='open_id')
-    print(df_log_uni)
+    # print(df_log_uni)
 
     previous_view_count = df_log_uni['view_count'].loc[df_log['open_id'] == open_id]
     print(previous_view_count)
@@ -77,11 +78,13 @@ def handle_bot(bot, view_count):
     else:
         previous_view_count = previous_view_count.item()
 
-    print(type(view_count))
+    comment = '@everyone\n'
+
+    # print(type(view_count))
     print(previous_view_count)
     if view_count >= 1000000:
         if previous_view_count < 1000000:
-            comment = '100万再生突破🥂🚀'
+            comment += '100万再生突破🥂🚀'
             post_flag = True
         else:
             print('通知対象外')
@@ -89,7 +92,7 @@ def handle_bot(bot, view_count):
 
     elif 1000000 > view_count >= 500000:
         if previous_view_count < 500000:
-            comment = '50万再生突破🤩'
+            comment += '50万再生突破🤩'
             post_flag = True
         else:
             print('通知対象外')
@@ -97,7 +100,7 @@ def handle_bot(bot, view_count):
 
     elif 500000 > view_count >= 200000:
         if previous_view_count < 200000:
-            comment = '20万再生突破🥳'
+            comment += '20万再生突破🥳'
             post_flag = True
         else:
             print('通知対象外')
@@ -105,7 +108,7 @@ def handle_bot(bot, view_count):
 
     elif 200000 > view_count >= 100000:
         if previous_view_count < 100000:
-            comment = '10万再生突破🎊'
+            comment += '10万再生突破🎊'
             post_flag = True
         else:
             print('通知対象外')
@@ -113,7 +116,7 @@ def handle_bot(bot, view_count):
 
     elif 100000 > view_count >= 50000:
         if previous_view_count < 50000:
-            comment = '5万再生突破👏'
+            comment += '5万再生突破👏'
             post_flag = True
         else:
             print('通知対象外')
@@ -121,7 +124,7 @@ def handle_bot(bot, view_count):
 
     elif 50000 > view_count >= 10000:
         if previous_view_count < 10000:
-            comment = '1万再生突破😁'
+            comment += '1万再生突破😁'
             post_flag = True
         else:
             print('通知対象外')
@@ -130,7 +133,9 @@ def handle_bot(bot, view_count):
         print('通知対象外')
         comment = ''
 
-
+    # print('post_flag= ', post_flag)
+    # print('url= ', url)
+    # print('comment= ', comment)
     return post_flag, url, comment
 
 
@@ -165,8 +170,8 @@ def gen_embed_post(series):
     view_count = series['view_count']
     comment_count = series['comment_count']
     share_count = series['share_count']
-    created_date = pd.to_datetime(series['created_time'], format='%Y年%m月%d日')
-    pasta_time = series['past_time']
+    created_date = series['created_time'].strftime('%Y-%m-%d %H:%M:%S')
+    pasta_time = str(series['past_time'])
 
     embed = {"embeds": [
         {
@@ -255,7 +260,7 @@ def send_post(url, bot, embeds, content, array):
 
     main_content = {
         'username': bot['name'],
-        # 'avatar_url': bot['icon_url'],
+        'avatar_url': bot['icon_url'],
         'content': content,
         'embeds': embeds
     }
@@ -263,8 +268,8 @@ def send_post(url, bot, embeds, content, array):
     print('====main_content====')
     print(main_content)
     print('-----')
-    # response = requests.post(webhook_url, json=main_content, headers=headers)
-    # print(response)
+    response = requests.post(webhook_url, json=main_content, headers=headers)
+    print(response)
     view_count = embeds[0]['fields'][0]['value']
     account_name = bot['name']
     open_id = bot['open_id']
