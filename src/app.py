@@ -128,9 +128,10 @@ def get_access_token(code):
         print("get access token successfully!")
         return "get access token successfully!"
     else:
-        # エラーが発生した場合
-        print(f"Error: {res.get('error_description', 'Unknown error')}")
-        return f"Error: {res.get('error_description', 'Unknown error')}"
+        error_description = res.get('error_description', 'Unknown error')
+        print(f"Error: {error_description}")
+        return f"Error: {error_description}", 500  # 500 Internal Server Errorを返す
+
 
 if __name__ == '__main__':
     print('start apps')
