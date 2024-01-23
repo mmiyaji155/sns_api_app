@@ -78,14 +78,14 @@ def get_access_key():
         return 'code is not found...'
 
 
-@app.route('/get-access/<code>', methods=['POST'])
+@app.route('/get-access/<code>', methods=['GET', 'POST'])
 def get_access_token(code):
     # アクセストークンを取得するためにpostする
     # resから取得したアクセストークンを保存する
     print('start get_access_token')
     print('===code===')
     print(code)
-    base_url = 'https://www.tiktok.com/v2/oauth/token/'
+    base_url = 'https://open.tiktokapis.com/v2/oauth/token/' # 'https://www.tiktok.com/v2/oauth/token/'
     redirect_url = url_for('get_access_key', _external=True)  # Use _external=True to get the absolute URL
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
