@@ -193,8 +193,8 @@ def gen_embed_post(series):
                     "inline": True,
                 },
                 {
-                    "name": "コメント数",
-                    "value": comment_count,
+                    "name": "投稿日",
+                    "value": created_date,
                     "inline": True,
                 },
                 {
@@ -203,8 +203,8 @@ def gen_embed_post(series):
                     "inline": True,
                 },
                 {
-                    "name": "投稿日",
-                    "value": created_date,
+                    "name": "コメント数",
+                    "value": comment_count,
                     "inline": True,
                 },
                 {
