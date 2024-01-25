@@ -193,7 +193,7 @@ def gen_embed_post(series):
                     "inline": True,
                 },
                 {
-                    "name": "投稿日",
+                    "name": "投稿日時",
                     "value": created_date,
                     "inline": True,
                 },
