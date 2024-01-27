@@ -142,7 +142,7 @@ def handle_bot(bot, view_count):
 def process_data_max_view_count():
     """
     投稿データのデータベースから、ヴィデオ後とにグループ化し、再生数の多い順に抽出する
-    このデータを元に通知のハンドリングを行う。
+    このデータを元に通知のハンドリングを行う
     :return:
     """
     df = pd.DataFrame(sh.get_values()[1:], columns=sh.get_values()[0])
