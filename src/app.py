@@ -101,7 +101,7 @@ def get_access_token(code):
     print(params)
     tokens = []
     try:
-        response = requests.post(base_url, headers=headers, params=params)
+        response = requests.post(base_url, headers=headers, data=params)
         print('=== Response Status Code ===')
         print(response.status_code)
         print('=== Response Content ===')
