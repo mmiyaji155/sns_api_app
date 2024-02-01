@@ -6,7 +6,7 @@
 import requests
 import gspread
 from google.oauth2.service_account import Credentials
-
+import datetime
 
 def refresh_access_token(client_key, client_secret, refresh_token):
     url = "https://open.tiktokapis.com/v2/oauth/token/"
@@ -38,13 +38,12 @@ def refresh_access_token(client_key, client_secret, refresh_token):
 
 
 # 使用例
-client_key = "YOUR_CLIENT_KEY"
-client_secret = "YOUR_CLIENT_SECRET"
-refresh_token = "USER_REFRESH_TOKEN"
+client_key = "awp9eb2ocfla7v3y"
+client_secret = "MPAbLk31CMW5xWSaVGqashblc0lo5NOg"
 
 
 # スプレッドシートの連携処理を別で書いておく。
-secret_credentials_json_oath = './src/my-project-42400-tiktok-api-b96b06c2fc39.json'
+secret_credentials_json_oath = './my-project-42400-tiktok-api-b96b06c2fc39.json'
 scopes = [
     'https://www.googleapis.com/auth/spreadsheets',
     'https://www.googleapis.com/auth/drive'
@@ -72,8 +71,12 @@ def main():
         result = refresh_access_token(client_key, client_secret, refresh_token)
         cell_value = []
         if result:
+            today = str(datetime.datetime.today())
             new_access_token = result["access_token"]
             new_refresh_token = result["refresh_token"]
+            open_id = result["open_id"]
+            scope = result["scope"]
+            print("open-id: ", open_id)
             print("新しいアクセストークン:", result["access_token"])
             print("有効期限:", result["expires_in"], "秒")
             print("リフレッシュトークン:", result["refresh_token"])
@@ -81,10 +84,18 @@ def main():
             print("スコープ:", result["scope"])
             cell_value.append(new_access_token)
             cell_value.append(new_refresh_token)
+            cell_value.append(open_id)
+            cell_value.append(scope)
+            cell_value.append(today)
             cell_values.append(cell_value)
         else:
             continue
     #   spread sheet を更新する
     row_count = len(cell_values)
-    sh.update(f'B2:C{row_count+1}', cell_values)  # シートの access_token & refresh_token を更新する
+    sh.update(f'A2:E{row_count+1}', cell_values)  # シートの access_token & refresh_token を更新する
     print('更新完了！')
+
+
+if __name__ == '__main__':
+    main()
+

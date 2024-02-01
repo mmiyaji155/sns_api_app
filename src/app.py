@@ -120,10 +120,12 @@ def get_access_token(code):
         access_token = res['access_token']
         open_id = res['open_id']
         refresh_token = res['refresh_token']
+        scope = res['scope']
         print(access_token)
         print(open_id)
         print(refresh_token)
-        tokens.append([access_token, refresh_token, open_id])
+        print(scope)
+        tokens.append([access_token, refresh_token, open_id, scope])
         wb.values_append('access-token', {'valueInputOption': 'USER_ENTERED'}, {'values': tokens})
         print("get access token successfully!")
         return "get access token successfully!"

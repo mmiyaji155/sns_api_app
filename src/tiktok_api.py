@@ -27,9 +27,13 @@ def main():
     print(access_tokens)
     append_data = []
     for access_token in access_tokens:
+        print('access_token: ', access_token)
         user_data = get_user_data(access_token)
         post_data = get_post_data(access_token)
+        print('start merge data')
         merged_data = merge_data(user_data, post_data)
+        if not merged_data:
+            continue
         # merged_dataは2次元配列になっている。
         append_data.extend(merged_data)
         print('next account')
@@ -53,19 +57,24 @@ def get_post_data(access_token):
     }
 
     params = {
-        'fields': ['id', 'title', 'share_url', 'created_time', 'like_count', 'comment_count', 'share_count', 'view_count']
+        'fields': 'id,title,share_url,created_time,like_count,comment_count,share_count,view_count'
     }
 
     data = {
         'max_count': 10
     }
-
-    res = requests.get(base_url, headers=headers, params=params, data=json.dumps(data))
+    try:
+        res = requests.post(base_url, headers=headers, params=params, json=data)
+    except Exception as e:
+        # 通信エラーなどの例外が発生した場合
+        print(f"An error occurred: {str(e)}")
 
     # レスポンスの処理
     post_data = []
     if res.status_code == 200:
         response_data = res.json()
+        print('---get post-data!!!---')
+        print(response_data)
         if 'data' in response_data:
             videos = response_data['data']['videos']
             for video in videos:
@@ -80,7 +89,6 @@ def get_post_data(access_token):
                 cover_image_url = video['cover_image_url']
                 data = [video_id, title, share_url, created_time, like_count, comment_count, share_count, view_count, cover_image_url]
                 post_data.append(data)
-
     else:
         print('Request failed with status code:', res.status_code)
     # post_dataは二次元配列になっている
@@ -95,13 +103,15 @@ def get_user_data(access_token):
     }
 
     params = {
-        'fields': ['open_id', 'display_name', 'avatar_url_100']
+        'fields' : 'open_id,display_name,avatar_url_100'
     }
 
     res = requests.get(base_url, headers=headers, params=params)
     user_data = []
     if res.status_code == 200:
         response_data = res.json()
+        print('---get user-data---')
+        print(response_data)
         if 'data' in response_data:
             user = response_data['data']['user']
             open_id = user['open_id']
@@ -116,22 +126,28 @@ def merge_data(user_data, post_data):
     # user_dataは1次元配列で渡され、post_dataは2次元配列で渡される
     # なので、post_dataの各値に対してuser_dataとtodayをマージする必要がある
     # なのでpost_dataの配列数分繰り返し処理を行う必要がある
-    today = datetime.datetime.today()
+    today = str(datetime.datetime.today())
     merged_data = []
     base_merged_data = [today]
     base_merged_data.extend(user_data)
-    for one_post_data in post_data:
-        one_merged_data = base_merged_data.extend(one_post_data)
-        print(base_merged_data)
-        print(one_merged_data)
-        merged_data.append(one_merged_data)
-    return merged_data
+    print('user_data: ', user_data)
+    print('post_data: ', post_data)
+    if len(post_data) == 0:
+        return False
+    else:
+        for one_post_data in post_data:
+            one_merged_data = base_merged_data + one_post_data
+            print(base_merged_data)
+            print(one_merged_data)
+            merged_data.append(one_merged_data)
+        return merged_data
 
 
 # spreadsheetへのデータ追加
 def handle_spread_sheet(append_data):
+    wb_db = gc.open_by_key('1VwJux4jbXUlc6Mjgs0ky-U6SduD2whyKB_gOsD9FAdM')
     sheet_name = 'data-base'
-    wb.values_append(sheet_name, {'valueInputOption': 'USER_ENTERED'}, {'values': append_data})
+    wb_db.values_append(sheet_name, {'valueInputOption': 'USER_ENTERED'}, {'values': append_data})
     print('データ追加完了！')
 
 
