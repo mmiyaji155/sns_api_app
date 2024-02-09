@@ -161,7 +161,7 @@ def process_past_time(utc_unix_epoch):
     hours_difference = time_difference.total_seconds() / 3600
     hours_difference_round = round(hours_difference)
     print("今日の日時:", today)
-    print("提供されたUnix epochの日時 (JST):", jst_datetime)
+    print("提供されたUnix epochの日時 (JST):", str(jst_datetime))
     print("今日の日時との差:", hours_difference_round, '時間')
     return str(jst_datetime), hours_difference_round
 

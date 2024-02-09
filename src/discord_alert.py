@@ -1,10 +1,8 @@
-import discord
+
 import requests
 import pandas as pd
-import json
 import gspread
 from google.oauth2.service_account import Credentials
-import datetime
 import numpy as np
 
 # スプレッドシートの連携処理を別で書いておく。
