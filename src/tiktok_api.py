@@ -57,7 +57,7 @@ def get_post_data(access_token):
     }
 
     params = {
-        'fields': 'id,title,share_url,created_time,like_count,comment_count,share_count,view_count'
+        'fields': 'id,title,share_url,create_time,like_count,comment_count,share_count,view_count,cover_image_url'
     }
 
     data = {
@@ -81,7 +81,7 @@ def get_post_data(access_token):
                 video_id = video['id']
                 title = video['title']
                 share_url = video['share_url']
-                created_time = video['created_time']
+                created_time = video['create_time']
                 like_count = video['like_count']
                 comment_count = video['comment_count']
                 share_count = video['share_count']
