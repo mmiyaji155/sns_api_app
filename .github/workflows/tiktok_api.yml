@@ -27,6 +27,6 @@ jobs:
          
       - name: Run script
         run: |
-          cd src
+          cd ./src
           python refresh.py
           python tiktok_api.py
