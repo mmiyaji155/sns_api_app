@@ -59,7 +59,12 @@ def handle_bot(bot, view_count):
     # print(df_log)
     open_id = bot['open_id']
     url = df['webhook_url'].loc[df['open_id'] == open_id]
-    url = url.item()
+    if url.empty:
+        print("URL is empty")
+        url = 'https://discord.com/api/webhooks/1198140921229889566/YCarCSSNs0ZdkFpFBAvMH1aJZxQzqWffYEZdnpnMyQI3BhMmUM7KRnqftKUVLPz24ty1'
+    else:
+        print("URL is not empty:", url)
+        url = url.item()
     df_log['view_count'] = df_log['view_count'].astype(np.int64)
     df_log = df_log.sort_values('view_count', ascending=False)
     # print(type(df_log))
