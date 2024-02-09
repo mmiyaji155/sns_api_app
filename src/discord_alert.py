@@ -145,8 +145,8 @@ def process_data_max_view_count():
     """
     df = pd.DataFrame(sh.get_values()[1:], columns=sh.get_values()[0])
     df['date_time'] = pd.to_datetime(df['date_time'])
-    df['created_time'] = pd.to_datetime(df['created_time'])
-    df['past_time'] = df['date_time'] - df['created_time']
+    df['create_time'] = pd.to_datetime(df['create_time'])
+    df['time_delta'] = df['time_delta'].astype(np.int64)
     df['like_count'] = df['like_count'].astype(np.int64)
     df['comment_count'] = df['comment_count'].astype(np.int64)
     df['share_count'] = df['share_count'].astype(np.int64)
@@ -168,8 +168,8 @@ def gen_embed_post(series):
     view_count = series['view_count']
     comment_count = series['comment_count']
     share_count = series['share_count']
-    created_date = series['created_time'].strftime('%Y-%m-%d %H:%M:%S')
-    pasta_time = str(series['past_time'])
+    created_date = series['create_time'].strftime('%Y-%m-%d %H:%M:%S')
+    pasta_time = series['time_delta']
 
     embed = {"embeds": [
         {
