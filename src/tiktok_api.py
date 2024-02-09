@@ -87,7 +87,8 @@ def get_post_data(access_token):
                 share_count = video['share_count']
                 view_count = video['view_count']
                 cover_image_url = video['cover_image_url']
-                data = [video_id, title, share_url, created_time, like_count, comment_count, share_count, view_count, cover_image_url]
+                created_time_jst, time_delta = process_past_time(created_time)
+                data = [video_id, title, share_url, created_time_jst, like_count, comment_count, share_count, view_count, cover_image_url,time_delta]
                 post_data.append(data)
     else:
         print('Request failed with status code:', res.status_code)
@@ -141,6 +142,28 @@ def merge_data(user_data, post_data):
             print(one_merged_data)
             merged_data.append(one_merged_data)
         return merged_data
+
+def process_past_time(utc_unix_epoch):
+    from datetime import datetime, timezone, timedelta
+    import math
+    # 提供されたUTC Unix epoch (秒単位)
+    # UTC Unix epochをdatetimeオブジェクトに変換
+    utc_datetime = datetime.utcfromtimestamp(utc_unix_epoch)
+    # 日本標準時 (JST) への変換
+    jst_timezone = timezone(timedelta(hours=9))  # UTC+9:00 (日本標準時)
+    jst_datetime = utc_datetime.astimezone(jst_timezone)
+    # 今日の日付と時刻を取得
+    today = datetime.now(jst_timezone)
+    # 今日の日時と提供されたUnix epochの日時の差を計算
+    time_difference = today - jst_datetime
+    # 差を時間に変換
+    # 差を日と時間に変換
+    hours_difference = time_difference.total_seconds() / 3600
+    hours_difference_round = round(hours_difference)
+    print("今日の日時:", today)
+    print("提供されたUnix epochの日時 (JST):", jst_datetime)
+    print("今日の日時との差:", hours_difference_round, '時間')
+    return str(jst_datetime), hours_difference_round
 
 
 # spreadsheetへのデータ追加
