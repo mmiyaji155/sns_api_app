@@ -3,7 +3,7 @@ import json
 import os
 import gspread
 from google.oauth2.service_account import Credentials
-import datetime
+from datetime import datetime, timezone, timedelta
 
 # スプレッドシートの連携処理を別で書いておく。
 secret_credentials_json_oath = './my-project-42400-tiktok-api-b96b06c2fc39.json'
@@ -127,7 +127,8 @@ def merge_data(user_data, post_data):
     # user_dataは1次元配列で渡され、post_dataは2次元配列で渡される
     # なので、post_dataの各値に対してuser_dataとtodayをマージする必要がある
     # なのでpost_dataの配列数分繰り返し処理を行う必要がある
-    today = str(datetime.datetime.today())
+    jst_timezone = timezone(timedelta(hours=9))
+    today = str(datetime.now(jst_timezone))
     merged_data = []
     base_merged_data = [today]
     base_merged_data.extend(user_data)
@@ -144,7 +145,6 @@ def merge_data(user_data, post_data):
         return merged_data
 
 def process_past_time(utc_unix_epoch):
-    from datetime import datetime, timezone, timedelta
     import math
     # 提供されたUTC Unix epoch (秒単位)
     # UTC Unix epochをdatetimeオブジェクトに変換
