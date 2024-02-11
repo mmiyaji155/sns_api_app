@@ -39,7 +39,7 @@ def discord_main():
             send_post(url, bot, embeds, comment, send_log)
             print('send!!')
         else: print('unsent!!')
-        time.sleep(5)
+        time.sleep(15)
     wb.values_append('send-log', {'valueInputOption': 'USER_ENTERED'}, {'values': send_log})
     print('hello')
 
@@ -215,7 +215,7 @@ def gen_embed_post(series):
                 },
                 {
                     "name": "経過日数",
-                    "value": pasta_time,
+                    "value": int(pasta_time)/24,
                     "inline": True,
                 },
             ],
