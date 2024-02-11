@@ -24,7 +24,7 @@ jobs:
           pip install requests
           pip install gspread
           pip install google-auth
-          pip unstall numpy
+          pip install numpy
           pip install pandas
          
       - name: Run script
