@@ -215,7 +215,7 @@ def gen_embed_post(series):
                 },
                 {
                     "name": "経過日数",
-                    "value": int(pasta_time)/24,
+                    "value": str(round(int(pasta_time)/24)),
                     "inline": True,
                 },
             ],
