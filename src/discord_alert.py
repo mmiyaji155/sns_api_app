@@ -1,9 +1,11 @@
+import time
 
 import requests
 import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
 import numpy as np
+import time
 
 # スプレッドシートの連携処理を別で書いておく。
 secret_credentials_json_oath = './my-project-42400-tiktok-api-b96b06c2fc39.json'
@@ -37,6 +39,7 @@ def discord_main():
             send_post(url, bot, embeds, comment, send_log)
             print('send!!')
         else: print('unsent!!')
+        time.sleep(5)
     wb.values_append('send-log', {'valueInputOption': 'USER_ENTERED'}, {'values': send_log})
     print('hello')
 
