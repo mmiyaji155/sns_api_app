@@ -41,7 +41,7 @@ def discord_main():
         else: print('unsent!!')
         time.sleep(15)
     wb.values_append('send-log', {'valueInputOption': 'USER_ENTERED'}, {'values': send_log})
-    print('hello')
+    # print('hello')
 
 
 def handle_bot(bot, view_count):
@@ -271,17 +271,17 @@ def send_post(url, bot, embeds, content, array):
         'embeds': embeds
     }
     headers = {'Content-Type': 'application/json'}
-    print('====main_content====')
-    print(main_content)
-    print('-----')
+    # print('====main_content====')
+    # print(main_content)
+    # print('-----')
     response = requests.post(webhook_url, json=main_content, headers=headers)
     print(response)
     view_count = embeds[0]['fields'][0]['value']
     account_name = bot['name']
     open_id = bot['open_id']
     array.append([open_id, account_name, view_count])
-    print('===array===')
-    print(array)
+    # print('===array===')
+    # print(array)
 
 
 

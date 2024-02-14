@@ -74,7 +74,7 @@ def get_post_data(access_token):
     if res.status_code == 200:
         response_data = res.json()
         print('---get post-data!!!---')
-        print(response_data)
+        # print(response_data)
         if 'data' in response_data:
             videos = response_data['data']['videos']
             for video in videos:
@@ -111,8 +111,8 @@ def get_user_data(access_token):
     user_data = []
     if res.status_code == 200:
         response_data = res.json()
-        print('---get user-data---')
-        print(response_data)
+        # print('---get user-data---')
+        # print(response_data)
         if 'data' in response_data:
             user = response_data['data']['user']
             open_id = user['open_id']
@@ -132,8 +132,8 @@ def merge_data(user_data, post_data):
     merged_data = []
     base_merged_data = [today]
     base_merged_data.extend(user_data)
-    print('user_data: ', user_data)
-    print('post_data: ', post_data)
+    # print('user_data: ', user_data)
+    # print('post_data: ', post_data)
     if len(post_data) == 0:
         return False
     else:
@@ -160,9 +160,9 @@ def process_past_time(utc_unix_epoch):
     # 差を日と時間に変換
     hours_difference = time_difference.total_seconds() / 3600
     hours_difference_round = round(hours_difference)
-    print("今日の日時:", today)
-    print("提供されたUnix epochの日時 (JST):", str(jst_datetime))
-    print("今日の日時との差:", hours_difference_round, '時間')
+    # print("今日の日時:", today)
+    # print("提供されたUnix epochの日時 (JST):", str(jst_datetime))
+    # print("今日の日時との差:", hours_difference_round, '時間')
     return str(jst_datetime), hours_difference_round
 
 
