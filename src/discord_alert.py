@@ -32,8 +32,9 @@ def discord_main():
         icon_url = row['icon_url']
         view_count = row['view_count']
         open_id = row['open_id']
+        video_id = row['video_id']
         embeds = gen_embed_post(row)
-        bot = {'name' : account_name, 'icon_url' : icon_url, 'open_id' : open_id}
+        bot = {'name' : account_name, 'icon_url' : icon_url, 'open_id' : open_id, 'video_id' : video_id}
         post_flag, url, comment = handle_bot(bot, view_count)
         if post_flag:
             send_post(url, bot, embeds, comment, send_log)
@@ -61,6 +62,7 @@ def handle_bot(bot, view_count):
     df_log = pd.DataFrame(sh_log.get_values()[1:], columns=sh_log.get_values()[0])
     # print(df_log)
     open_id = bot['open_id']
+    video_id = bot['video_id']
     url = df['webhook_url'].loc[df['open_id'] == open_id]
     if url.empty:
         print("URL is empty")
@@ -73,10 +75,10 @@ def handle_bot(bot, view_count):
     # print(type(df_log))
     # print(df_log)
 
-    df_log_uni = df_log.drop_duplicates(subset='open_id')
+    df_log_uni = df_log.drop_duplicates(subset='video_id')
     # print(df_log_uni)
 
-    previous_view_count = df_log_uni['view_count'].loc[df_log['open_id'] == open_id]
+    previous_view_count = df_log_uni['view_count'].loc[df_log['video_id'] == video_id]
     print(previous_view_count)
 
     if previous_view_count.empty:
@@ -278,8 +280,8 @@ def send_post(url, bot, embeds, content, array):
     print(response)
     view_count = embeds[0]['fields'][0]['value']
     account_name = bot['name']
-    open_id = bot['open_id']
-    array.append([open_id, account_name, view_count])
+    video_id = bot['video_id']
+    array.append([video_id, account_name, view_count])
     # print('===array===')
     # print(array)
 
