@@ -61,7 +61,7 @@ def get_post_data(access_token):
     }
 
     data = {
-        'max_count': 10
+        'max_count': 15
     }
     try:
         res = requests.post(base_url, headers=headers, params=params, json=data)
